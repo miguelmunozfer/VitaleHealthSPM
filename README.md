@@ -1,129 +1,135 @@
-# TrainingSDK React Native Plugin Documentation
+# VitaleHealthSDK
 
-This documentation is intended to guide React Native developers through the process of integrating and utilizing the TrainingSDK in their projects.
+[![CI Status](https://img.shields.io/travis/Miguel/VitaleSDK.svg?style=flat)](https://travis-ci.org/Miguel/VitaleSDK)
+[![Version](https://img.shields.io/cocoapods/v/VitaleSDK.svg?style=flat)](https://cocoapods.org/pods/VitaleSDK)
+[![License](https://img.shields.io/cocoapods/l/VitaleSDK.svg?style=flat)](https://cocoapods.org/pods/VitaleSDK)
+[![Platform](https://img.shields.io/cocoapods/p/VitaleSDK.svg?style=flat)](https://cocoapods.org/pods/VitaleSDK)
 
-## Importing TrainingSDK with Swift Package Manager (SPM)
-
-To integrate the TrainingSDK in your React Native project using Swift Package Manager, follow these steps:
-
-1. **Open your project in Xcode**: First, ensure your React Native project is open in Xcode.
-
-2. **Adding Swift Package**:
-   - Go to `File` -> `Swift Packages` -> `Add Package Dependency`.
-   - Enter the URL for the TrainingSDK: `https://github.com/miguelmunozfer/TrainingSDKSPM`
-   - Follow the prompts to choose the version and options for integrating the package into your project.
-
-3. **Verifying Integration**:
-   - Once added, ensure that the TrainingSDK package appears in the Swift Package Dependencies section of your project.
-   - You can now use the SDK as per the documentation provided.
-
-This process will integrate the TrainingSDK into your React Native project, allowing you to utilize its functionalities through Swift and bridging to React Native.
-
-
-## Installation
-
-Before starting, ensure that your React Native project is set up and ready to integrate native modules.
-
-### Add Swift Files to Your Project:
-- Place the `TrainingSDKBridge.swift` and `TrainingSDKBridge.m` along with any other required Swift files in your project's directory.
-
-### Configure Objective-C Bridging Header:
-- If you haven't already, create a bridging header to use Swift with Objective-C in your project. This is usually done automatically by Xcode when you add a new Swift file to an Objective-C project.
-- Add `#import "React/RCTBridgeModule.h"` to the bridging header.
+## Description
+VitaleHealthSDK is a comprehensive intelligent, automatic, and adaptive training and nutrition framework programmed in
+Swift for iOS and iPadOS.
 
 ## Usage
 
-After successfully integrating the SDK, you can use the provided methods in your React Native JavaScript code. Here’s a brief overview of the available methods:
+### Requeriments
 
-### `start(user, appID, password)`
-Starts the TrainingSDK session with the given user credentials.
+It is necessary to drag the 'vitaleCredentials' file into the Xcode project.
 
-#### Parameters:
-- `user`: String - The user identifier.
-- `appID`: String - The application ID.
-- `password`: String - The password.
+You need to add NSCalendarsUsageDescription, NSCameraUsageDescription, NSHealthUpdateUsageDescription, NSMicrophoneUsageDescription and NSHealthShareUsageDescription in your info.plist.
 
-#### Example:
-```javascript
-import { TrainingSDKBridge } from 'NativeModules';
+### Simple 1-line setup
 
-TrainingSDKBridge.start('username', 'appId', 'password');
+Use your MyVitale credentials for initiating SDK. Your user_id must be permanent and unique for each App user (any user id, including the ones you are already using in your system,  can be used).
+
+```swift
+VitaleSDK.shared.startSDKWithConfig(config: "vitaleCredentials", userID: "USER_ID")
+
 ```
 
-### `updateProfile(sex, height, weight, birthDateString)`
-Updates the user's profile with the provided details.
+### Display Functionalities
 
-#### Parameters:
-- `sex`: String (optional) - The user's gender. The possible options are:
-  - `Male` for male
-  - `Female` for female
-- `height`: Number (optional) - The user's height in centimeters.
-- `weight`: Number (optional) - The user's weight in kilograms.
-- `birthDateString`: String (optional) - The user's birth date in 'yyyy-MM-dd' format.
+The SDK provides methods to display different functionalities:
 
-#### Example:
-```javascript
-TrainingSDKBridge.updateProfile('Male', 180, 75, '1990-01-01');
+```swift
+VitaleSDK.showNutrition()
+VitaleSDK.showTraining()
+VitaleSDK.showExperts()
+VitaleSDK.showProfile()
 ```
 
-### `showTrainingModule()`
-Displays the nutrition module.
+### Update Personal Profile
 
-#### Example:
-```javascript
-TrainingSDKBridge.showTrainingModule();
+To update the user's personal profile:
+
+```swift
+VitaleSDK.updatePersonalProfile(firstName: "John", lastName: "Cook", gender: .male, height: 180, weight: 75, birthDate: Date())
 ```
 
-### `logout()`
-Logs out the current user from the SDK.
+#### Description
+Updates the personal profile of the user within the SDK. This method allows for the modification of the user's gender, height, weight, and birth date. All parameters are optional, enabling the update of specific information as needed.
 
-#### Example:
-```javascript
-TrainingSDKBridge.logout();
+#### Parameters
+- `firstName: String?` (Optional): The firstName of the user. Can be `nil` if not updating this information.
+- `lastName: String?` (Optional): The lastName of the user. Can be `nil` if not updating this information.
+- `gender: UserGender?` (Optional): The gender of the user. Can be `nil` if not updating this information.
+- `height: Int?` (Optional): The user's height in centimeters. Can be `nil` if not updating this information.
+- `weight: Int?` (Optional): The user's weight in kilograms. Can be `nil` if not updating this information.
+- `birthDate: Date?` (Optional): The user's birth date. Can be `nil` if not updating this information.
+
+#### Example Usage
+```swift
+VitaleSDK.updatePersonalProfile(firstName: "John", lastName: "Cook", gender: .male, height: 180, weight: 75, birthDate: Date())
 ```
 
-### `setMainColor(color)`
-Sets the main color theme for the SDK's UI elements.
+### UI Customization
 
-#### Parameters:
-- `color`: String - The color in a string format (e.g., hex code).
+`VitaleSDK` allows for the customization of various user interface aspects:
 
-#### Example:
-```javascript
-TrainingSDKBridge.setMainColor('FF5733'); // Example with a hex color code
+```swift
+// Set the main color
+VitaleSDK.setMainColor(color: "#hexColor")
+
+// Set the primary button color
+VitaleSDK.setPrimaryButtonColor("#hexColor")
+
+// Set the navigation bar color
+VitaleSDK.setNavigationBarColor(color: "#hexColor")
+
+// Set the navigation tint color
+VitaleSDK.setNavigationTintColor(color: "#hexColor")
+
+// Set a small logo
+VitaleSDK.setSmallLogo(UIImage(named: "logoImage"))
 ```
 
-### `setNavigationBarColor(color)`
-Sets the navigation bar color.
+### `setPathologies(_:)`
 
-#### Parameters:
-- `color`: String - The color in a string format.
+#### Description
+Sets the user's pathologies in the SDK. This method allows defining a list of specific medical conditions affecting the user, based on a predefined set of conditions.
 
-#### Example:
-```javascript
-TrainingSDKBridge.setNavigationBarColor('007AFF');
+#### Parameters
+- `pathologies: [Pathologies]`: An array of the user's pathologies. Possible options include:
+  - `.arterialHypertension`: Arterial Hypertension.
+  - `.osteoporosis`: Osteoporosis.
+  - `.diabetes`: Diabetes.
+  - `.obesity`: Obesity.
+  - `.highCholesterolOrTriglycerides`: High Cholesterol or Triglycerides.
+  - `.backPain`: Back Pain.
+  - `.metabolicsyndrome`: Metabolic Syndrome.
+  - `.copd`: Chronic Obstructive Pulmonary Disease (COPD).
+  - `.multipleSclerosis`: Multiple Sclerosis.
+  - `.fibromyalgia`: Fibromyalgia.
+  - `.stroke`: Stroke.
+  - `.heartDisease`: Heart Disease.
+
+#### Example Usage
+```swift
+VitaleSDK.setPathologies([.diabetes, .obesity, .highCholesterolOrTriglycerides])
 ```
 
-### `setNavigationTintColor(color)`
-Sets the navigation tint color, which is often used for button items in the navigation bar.
+### `getProfile(_:)`
 
-#### Parameters:
-- `color`: String - The color in a string format.
+#### Description
+Retrieves the personal profile of the user. This function is asynchronous and returns the data through a completion block.
 
-#### Example:
-```javascript
-TrainingSDKBridge.setNavigationTintColor('FFFFFF');
+#### Parameters
+- `completion: @escaping(PersonalProfile?)->()`: A completion block that is called with the user's profile. It may be `nil` if the information could not be retrieved.
+
+#### Example Usage
+```swift
+VitaleSDK.getProfile { userProfile in
+    if let profile = userProfile {
+        print("User profile: \(profile)")
+    } else {
+        print("Failed to retrieve user profile")
+    }
+}
 ```
 
-### `setNavigationTitle(title)`
-Sets the title for the navigation bar.
+## Author
 
-#### Parameters:
-- `title`: String - The title text.
+MyVitale, info@myvitale.com
 
+## License
 
-## Note
-- Ensure that the data types passed from JavaScript match the expected types in Swift.
-- Some functions might require additional handling based on the NutritionIASDK's requirements and capabilities.
-
-This documentation provides a basic outline for using the TrainingSDK in a React Native environment. Developers may need to adjust usage and implementation details based on their specific project needs and the SDK's capabilities.
+VitaleSDK is available under the MIT license. See the LICENSE file for more info.
