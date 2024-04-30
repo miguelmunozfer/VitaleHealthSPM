@@ -1,0 +1,59 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
+// swift-module-flags: -target x86_64-apple-ios13.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name VitaleHealthSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import DeveloperToolsSupport
+import Foundation
+import NutritionIASDK
+import Swift
+import SwiftUI
+import TrainingSDK
+import UIKit
+@_exported import VitaleHealthSDK
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public enum UserGender : Swift.Codable {
+  case male, female
+  public static func == (a: VitaleHealthSDK.UserGender, b: VitaleHealthSDK.UserGender) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct PersonalProfile : Swift.Codable {
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers public class VitaleSDK {
+  public static let shared: VitaleHealthSDK.VitaleSDK
+  weak public var vitaleSDKDelegate: (any VitaleHealthSDK.VitaleSDKDelegate)?
+  public func setDelegate(_ delegate: any VitaleHealthSDK.VitaleSDKDelegate)
+  public func startSDKWithConfig(config: Swift.String, userID: Swift.String)
+  public func setMainColor(color: Swift.String)
+  public func setPrimaryButtonColor(_ color: Swift.String)
+  public func setNavigationBarColor(color: Swift.String)
+  public func setNavigationTintColor(color: Swift.String)
+  public func showVitale()
+  public func showNutrition()
+  public func showTraining()
+  public func showProfile()
+  public func setSmallLogo(_ logo: UIKit.UIImage?)
+  public func updatePersonalProfile(firstName: Swift.String? = nil, lastName: Swift.String? = nil, gender: VitaleHealthSDK.UserGender? = nil, height: Swift.Int? = nil, weight: Swift.Int? = nil, birthDate: Foundation.Date? = nil)
+  public func setPathologies(_ pathologies: [TrainingSDK.Pathologies])
+  public func getProfile(_ completion: @escaping (VitaleHealthSDK.PersonalProfile?) -> ())
+  @objc deinit
+}
+public protocol VitaleSDKDelegate : AnyObject {
+  func newEvent(_ eventName: Swift.String)
+}
+extension UIKit.UILabel {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func awakeFromNib()
+}
+extension UIKit.UIButton {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func awakeFromNib()
+}
+extension VitaleHealthSDK.UserGender : Swift.Equatable {}
+extension VitaleHealthSDK.UserGender : Swift.Hashable {}
