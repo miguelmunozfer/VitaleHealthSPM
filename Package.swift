@@ -1,33 +1,29 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 import PackageDescription
 
 let package = Package(
-    name: "VitaleHealthSPM",
-    platforms: [
-       .iOS(.v12)
-    ],
+    name: "VitaleHealthSDK",
     products: [
         .library(
-            name: "VitaleHealthSPM",
-            targets: ["VitaleHealthSDKWrapper"]),
+            name: "VitaleHealthSDK",
+            targets: ["VitaleHealthLibrary"]),
     ],
     dependencies: [
-        // Dependencias de tu SDK
-        .package(url: "https://github.com/miguelmunozfer/TrainingSDKSPM", .branch("main")),
-        .package(url: "https://github.com/miguelmunozfer/NutritionSDKPlugin", .branch("main"))
+        .package(name: "TrainingSDKSPM", url: "https://github.com/miguelmunozfer/TrainingSDKSPM", .branch("main")),
+        .package(name: "NutritionSDKPlugin", url: "https://github.com/miguelmunozfer/NutritionSDKPlugin", .branch("main"))
     ],
     targets: [
         .binaryTarget(
-            name: "VitaleHealthSPM",
-            path: "./VitaleHealthSDK.xcframework"
-        ),
+            name: "VitaleHealthBinary",
+            path: "./VitaleHealthSDK.xcframework"),
         .target(
-            name: "VitaleHealthSDKWrapper",
+            name: "VitaleHealthLibrary",
             dependencies: [
+                "VitaleHealthBinary",
                 .product(name: "TrainingSDK", package: "TrainingSDKSPM"),
                 .product(name: "NutritionIASDK", package: "NutritionSDKPlugin")
             ],
-            path: "Sources/VitaleHealthSDKWrapper"
+            path: "Sources/VitaleHealthLibrary"
         )
     ]
 )
